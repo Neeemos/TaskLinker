@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    liste des projets
+{% endblock %}
+{% block header_title %}
+    Projets
+{% endblock %}
+
+{% block body %}
+    <div id="content">
+        <div id="projects-container">
+            <article class="card-project">
+                <a href="{{ path('project_id', {'id': 10}) }}">
+                    <h2>
+                        Project Title
+                    </h2>
+                </a>
+                <div class="card-project-icons">
+                    <a href="{{ path('project_form_id', {'id': 10}) }}">
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+                    <a href="{{ path('project_remove', {'id': 10}) }}">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </div>
+            </article>
+            <article class="card-project">
+                <a href="{{ path('project_form') }}">
+                    <i class="fa-solid fa-circle-plus add-project-icon"></i>
+                    <h2>
+                        Ajouter un projet
+                    </h2>
+                </a>
+            </article>
+        </div>
+    </div>
+{% endblock %}

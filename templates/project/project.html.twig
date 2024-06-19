@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   liste des projets
+{% endblock %}
+{% block header_title %}
+   Projet ID :
+   {{ id }}
+{% endblock %}
+{% block header_html %}
+   <div class="user-list">
+      <div class="avatar">
+         ND
+      </div>
+      <div class="avatar">
+         DB
+      </div>
+   </div>
+   <a class="button" href="{{ path('project_form_id', {'id': id}) }}">
+      Modifier
+   </a>
+{% endblock %}
+{% block body %}
+   <div id="content">
+      <div id="tasks-container">
+         <div class="task-column">
+            <h2>
+               Statut loop
+            </h2>
+            <div class="tasks-list">
+               <a class="task" href="{{ path('project_task_edit', {'id': id, 'taskId': id}) }}">
+                  <h3>
+                     Task.title
+                  </h3>
+                  <p>
+                     Task.description
+                  </p>
+                  <div class="task-infos">
+                     <div class="task-deadline">
+                        <i class="fa-regular fa-calendar"></i>
+                        14/09/2023
+                     </div>
+                     <div class="mini-user">
+                        T.U
+                     </div>
+                  </div>
+               </a>
+               <a href="{{ path('project_task_add', {'id': id, 'statut': id}) }}" class="task-add">
+                  + Ajouter une tâche
+               </a>
+            </div>
+         </div>
+         <div class="task-column">
+            <h2>
+               Statut loop
+            </h2>
+            <div class="tasks-list">
+               <a class="task" href="tache.html">
+                  <h3>
+                     Task.title
+                  </h3>
+                  <p>
+                     Task.description
+                  </p>
+                  <div class="task-infos">
+                     <div class="task-deadline">
+                        <i class="fa-regular fa-calendar"></i>
+                        14/09/2023 task.Date
+                     </div>
+                     <div class="mini-user">
+                        task.user.list
+                     </div>
+                  </div>
+               </a>
+               <a href="tache_add" class="task-add">
+                  + Ajouter une tâche
+               </a>
+            </div>
+         </div>
+
+      </div>
+   </div>
+{% endblock %}

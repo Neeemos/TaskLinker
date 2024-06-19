@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block title %}liste des employés{% endblock %}
+{% block header_title %} Equipe {% endblock %}
+{% block body %}
+<div id="content">
+<table id="team-container">
+   <thead>
+      <tr>
+         <th>Prénom, Nom</th>
+         <th>Statut</th>
+         <th>Actions</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>
+            <div class="employee-infos">
+               <div class="employee-avatar">
+                  ND
+               </div>
+               <div class="employee-coords">
+                  <strong>User.name</strong>
+                  <span>User.email</span>
+               </div>
+            </div>
+         </td>
+         <td>user.contract</td>
+         <td>
+            <a class="button button-edit-team" href="user/10/edit">
+            Éditer
+            </a>
+            <a class="delete-team" href="user/10/remove">
+            Supprimer
+            </a>
+         </td>
+      </tr>
+   </tbody>
+</table>
+</div>
+{% endblock %}
