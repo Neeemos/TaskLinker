@@ -64,7 +64,7 @@
                 <button class="button button-submit">
                     Ajouter
                 </button>
-            <a href="{{path}}" class="delete-task">Supprimer la tâche</a>
+            <a href="{{ path('project_task_remove', {'id': id, 'statut': statut}) }}" class="delete-task">Supprimer la tâche</a>
             </form>
         </div>
     {% endblock %}

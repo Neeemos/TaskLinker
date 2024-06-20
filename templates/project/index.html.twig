@@ -10,21 +10,23 @@
 {% block body %}
     <div id="content">
         <div id="projects-container">
+        {% for project in projects %}
             <article class="card-project">
-                <a href="{{ path('project_id', {'id': 10}) }}">
+                <a href="{{ path('project_id', {'id': project.id}) }}">
                     <h2>
-                        Project Title
+                        {{project.title}}
                     </h2>
                 </a>
                 <div class="card-project-icons">
-                    <a href="{{ path('project_form_id', {'id': 10}) }}">
+                    <a href="{{ path('project_form_id', {'id': project.id}) }}">
                         <i class="fa-solid fa-pen"></i>
                     </a>
-                    <a href="{{ path('project_remove', {'id': 10}) }}">
+                    <a href="{{ path('project_remove', {'id': project.id}) }}">
                         <i class="fa-solid fa-trash"></i>
                     </a>
                 </div>
             </article>
+        {% endfor %}
             <article class="card-project">
                 <a href="{{ path('project_form') }}">
                     <i class="fa-solid fa-circle-plus add-project-icon"></i>

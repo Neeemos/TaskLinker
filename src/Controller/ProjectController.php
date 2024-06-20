@@ -6,14 +6,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\ProjectRepository;
+use App\Entity\Project;
 
 class ProjectController extends AbstractController
 {
     #[Route('/', name: 'project_index')]
-    public function index(request $request): Response
+    public function index(request $request, ProjectRepository $projectRepository): Response
     {
+        $projects = $projectRepository->findAll();
+        if (!$projects) {
+            $projects = new Project();
+        }
         return $this->render('project/index.html.twig', [
             'current_route' => $request->attributes->get('_route'),
+            'projects' => $projects
         ]);
     }
 
