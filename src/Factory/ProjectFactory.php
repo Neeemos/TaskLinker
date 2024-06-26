@@ -32,7 +32,6 @@ final class ProjectFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'description' => self::faker()->text(255),
             'title' => self::faker()->text(30),
         ];
     }

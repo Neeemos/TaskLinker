@@ -36,7 +36,7 @@ final class TaskFactory extends PersistentProxyObjectFactory
             'description' => self::faker()->text(255),
             'user' => UserFactory::new(),
             'project' => ProjectFactory::new(),
-            'status' => self::faker()->randomNumber(),
+            'status' => self::faker()->randomElement(['0', '1', '3']),
             'title' => self::faker()->text(255),
         ];
     }

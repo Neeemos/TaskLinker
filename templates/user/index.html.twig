@@ -12,28 +12,30 @@
       </tr>
    </thead>
    <tbody>
+      {% for user in user_list %}
       <tr>
          <td>
             <div class="employee-infos">
                <div class="employee-avatar">
-                  ND
+               {{ user.name | initials(user.surname) }}
                </div>
                <div class="employee-coords">
-                  <strong>User.name</strong>
-                  <span>User.email</span>
+                  <strong>{{user.name}}</strong>
+                  <span>{{user.email}}</span>
                </div>
             </div>
          </td>
-         <td>user.contract</td>
+         <td>{{user.status}}</td>
          <td>
-            <a class="button button-edit-team" href="user/10/edit">
+            <a class="button button-edit-team" href="user/{{user.id}}/edit">
             Éditer
             </a>
-            <a class="delete-team" href="user/10/remove">
+            <a class="delete-team" href="user/{{user.id}}/remove">
             Supprimer
             </a>
          </td>
       </tr>
+   {% endfor %}
    </tbody>
 </table>
 </div>
