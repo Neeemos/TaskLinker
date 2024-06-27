@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}
    liste des projets
 {% endblock %}
@@ -42,9 +41,11 @@
                                  <i class="fa-regular fa-calendar"></i>
                                  {{ task.date|date('d/m/Y') }}
                               </div>
-                              <div class="mini-user">
-                                 {{ task.user.name | initials(task.user.surname) }}
-                              </div>
+                              {% if task.user %}
+                                 <div class="mini-user">
+                                    {{ task.user.name | initials(task.user.surname) }}
+                                 </div>
+                              {% endif %}
                            </div>
                         </a>
                      {% endif %}

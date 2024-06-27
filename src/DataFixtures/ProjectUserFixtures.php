@@ -23,13 +23,11 @@ class ProjectUserFixture extends Fixture
         // Associer chaque utilisateur à chaque projet
         foreach ($projects as $project) {
             // Sélectionnez aléatoirement un sous-ensemble d'utilisateurs ou ajustez selon votre logique
-            $usersToAdd = array_slice($users, 0, mt_rand(1, count($users)));
+            $usersToAdd = array_slice($users, 0, mt_rand(1, 10));
 
             foreach ($usersToAdd as $user) {
                 $project->addUser($user);
                 $user->addProject($project);
-
-                // Note: Si nécessaire, persistez également les modifications ici
             }
         }
 

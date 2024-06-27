@@ -21,7 +21,6 @@ class TaskController extends AbstractController
     {
         $project = $projectRepository->find($id);
 
-
         if (!$project) {
             throw $this->createNotFoundException('No project found');
         }
@@ -40,6 +39,7 @@ class TaskController extends AbstractController
         return $this->render('task/form.html.twig', [
             'current_route' => $request->attributes->get('_route'),
             'id' => $id,
+            'taskId' => $task->getId(),
             'statut' => $statut,
             'form' => $form->createView()
         ]);

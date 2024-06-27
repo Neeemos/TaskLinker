@@ -97,6 +97,7 @@ class ProjectController extends AbstractController
         if (!$project) {
             throw $this->createNotFoundException('Project not found');
         }
+
         return $this->render('project/project.html.twig', [
             'current_route' => $request->attributes->get('_route'),
             'id' => $id,

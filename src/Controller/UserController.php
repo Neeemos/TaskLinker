@@ -51,6 +51,10 @@ class UserController extends AbstractController
         if (!$user) {
             throw $this->createNotFoundException('User not found');
         }
+        foreach ($user->getTasks() as $task) {
+            $task->setUser(null);
+            $entityManager->persist($task);
+        }
         $entityManager->remove($user);
         $entityManager->flush();
 
