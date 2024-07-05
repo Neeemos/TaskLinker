@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class TaskType extends AbstractType
 {
@@ -21,7 +22,14 @@ class TaskType extends AbstractType
         $project = $options['project'];
         $status = $options['status'];
         $builder
-            ->add('title', TextType::class, ['label' => 'Titre de la tâche'])
+            ->add('title', TextType::class, [
+                'label' => 'Titre de la tâche',
+                'constraints' => array(
+                    new NotBlank([
+                        'message' => 'test'
+                    ])
+                )
+            ])
             ->add('description')
             ->add('date', null, [
                 'widget' => 'single_text',
@@ -39,12 +47,15 @@ class TaskType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Membre'
             ])
-            // ->add('project', HiddenType::class, [
-            //     'data' => $project ? $project->getId() : null, // Set the project ID as hidden field value
-            // ])
-            ->add('project', EntityType::class, [
+            ->add('project', HiddenType::class, [
+                'mapped' => false, // We will manually map it in the controller
+            ])
+            ->add('projectEntity', EntityType::class, [
                 'class' => Project::class,
                 'choice_label' => 'title',
+                'attr' => ['style' => 'display:none;'], // Hide the field
+                'mapped' => false, // We will manually map it in the controller
+                'label' => false,
             ])
 
             ->add('submit', SubmitType::class, [

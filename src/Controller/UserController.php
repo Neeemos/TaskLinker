@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\User;
 
 class UserController extends AbstractController
 {
@@ -21,13 +22,10 @@ class UserController extends AbstractController
             'user_list' => $userList
         ]);
     }
-    #[Route('/user/{id}/edit', name: 'user_edit')]
-    public function edit(request $request, int $id, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    #[Route('/user/{id}/edit', name: 'user_edit',  methods: ['GET', 'POST'])]
+    public function edit(request $request, User $user , EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-        $user = $userRepository->find($id);
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
-        }
+        
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -41,16 +39,12 @@ class UserController extends AbstractController
         return $this->render('user/user.html.twig', [
             'current_route' => $request->attributes->get('_route'),
             'form' => $form->createView(),
-            'id' => $id
+            'id' => $user->getId()
         ]);
     }
-    #[Route('/user/{id}/remove', name: 'user_remove')]
-    public function remove(request $request, int $id, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
+    #[Route('/user/{id}/remove', name: 'user_remove',  methods: ['POST', 'GET'])]
+    public function remove(request $request, User $user, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-        $user = $userRepository->find($id);
-        if (!$user) {
-            throw $this->createNotFoundException('User not found');
-        }
         foreach ($user->getTasks() as $task) {
             $task->setUser(null);
             $entityManager->persist($task);

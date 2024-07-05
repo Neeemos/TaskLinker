@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ProjectController extends AbstractController
 {
-    #[Route('/', name: 'project_index')]
+    #[Route('/', name: 'project_index', methods: ['GET'])]
     public function index(request $request, ProjectRepository $projectRepository): Response
     {
         $projects = $projectRepository->findAll();
@@ -26,14 +26,14 @@ class ProjectController extends AbstractController
     }
 
 
-    #[Route('/project/form/', name: 'project_form')]
+    #[Route('/project/form/', name: 'project_form', methods: ['GET', 'POST'])]
     public function projectFormAdd(request $request, EntityManagerInterface $entityManager): Response
     {
         $project = new Project();
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $project = $form->getData();
+            // $project = $form->getData();
             $entityManager->persist($project);
             $entityManager->flush();
 
@@ -44,15 +44,9 @@ class ProjectController extends AbstractController
             'form' => $form
         ]);
     }
-    #[Route('/project/form/{id}', name: 'project_form_id')]
-    public function projectFormEdit(int $id, Request $request, EntityManagerInterface $entityManager, ProjectRepository $projectRepository): Response
+    #[Route('/project/form/{id}', name: 'project_form_id',  methods: ['GET', 'POST']) ]
+    public function projectFormEdit(Project $project, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $project = $projectRepository->find($id);
-
-        if (!$project) {
-            throw $this->createNotFoundException('No project found');
-        }
-
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
@@ -67,19 +61,10 @@ class ProjectController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    #[Route('/project/edit/{id}', name: 'project_edit')]
-    public function projectEdit(request $request, int $id): Response
+    
+    #[Route('/project/remove/{id}', name: 'project_remove',  methods: ['GET', 'POST'])]
+    public function projectRemove(Project $project, EntityManagerInterface $entityManagerInterface): Response
     {
-        return $this->render('project/project.html.twig', [
-            'current_route' => $request->attributes->get('_route'),
-            'id' => $id
-        ]);
-    }
-    #[Route('/project/remove/{id}', name: 'project_remove')]
-    public function projectRemove(request $request, int $id, ProjectRepository $repository, EntityManagerInterface $entityManagerInterface): Response
-    {
-        $project = $repository->find($id);
         if (!$project) {
             throw $this->createNotFoundException('Car not found');
         }
@@ -89,18 +74,18 @@ class ProjectController extends AbstractController
         return $this->redirectToRoute('project_index');
     }
 
-    #[Route('/project/manager/{id}', name: 'project_id')]
-    public function projectFind(request $request, int $id, TaskRepository $TaskRepository, ProjectRepository $projectRepository): Response
+    #[Route('/project/manager/{id}', name: 'project_id',  methods: ['GET', 'POST'])]
+    public function projectFind(request $request, Project $project, TaskRepository $TaskRepository): Response
     {
-        $tasks = $TaskRepository->findBy(['project' => $id]);
-        $project = $projectRepository->find($id);
+        $tasks = $TaskRepository->findBy(['project' => $project->getId()]);
+
         if (!$project) {
             throw $this->createNotFoundException('Project not found');
         }
 
         return $this->render('project/project.html.twig', [
             'current_route' => $request->attributes->get('_route'),
-            'id' => $id,
+            'id' => $project->getId(),
             'project' => $project,
             'tasks' => $tasks
         ]);

@@ -6,6 +6,7 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -16,12 +17,14 @@ class Task
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(max: 10)]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\Type("\DateTimeInterface")]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
@@ -32,6 +35,7 @@ class Task
     private ?Project $project = null;
 
     #[ORM\Column]
+    #[Assert\Range(min: 1, max: 3, notInRangeMessage: 'You must be between {{ min }} and {{ max }} tall to enter')]
     private ?int $status = null;
 
     public function getId(): ?int
