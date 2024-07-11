@@ -24,6 +24,7 @@ class TaskType extends AbstractType
         $status = $options['status'];
         $isEdit = $options['is_edit'];
         $builder
+            ->setMethod('POST')
             ->add('title', TextType::class, [
                 'label' => 'Titre de la tâche',
                 'empty_data' => ''

@@ -16,6 +16,7 @@ class ProjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->setMethod('POST')
             ->add('title', TextType::class, ['label' => ' Titre du projet', 'empty_data' => ''])
             ->add('users', EntityType::class, [
                 'class' => User::class,
