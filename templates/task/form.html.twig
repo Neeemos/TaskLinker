@@ -7,23 +7,16 @@
 {% endblock %}
 {% block body %}
     <div id="content">
-        {{ form_start(form, {'attr': {'novalidate': 'novalidate' }}
-        ) }}
-        {{ form_label(form.title) }}
-        {{ form_widget(form.title) }}
-        {{ form_errors(form.title) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.date) }}
-        {{ form_row(form.status) }}
-        {{ form_row(form.user) }}
-        {{ form_row(form.project) }}
-        {{ form_row(form.projectEntity) }}
-        {{ form_row(form.submit) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate' }}
+    ) }}
+        {{ form_widget(form) }}
         {% if taskId is not null %}
             <a href="{{ path('project_task_remove', {'id': id, 'taskId': taskId}) }}" class="delete-task">
                 Supprimer la tâche
             </a>
         {% endif %}
         {{ form_end(form) }}
+        
+    
     </div>
 {% endblock %}

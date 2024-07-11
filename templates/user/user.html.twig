@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-    user.name
+    {{user.name}}
 {% endblock %}
 {% block header_title %}
-    User.name
+   {{user.name}} 
 {% endblock %}
 {% block body %}
     <div id="content">
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate' }}
+    ) }}
     {{ form_row(form.name) }}
     {{ form_row(form.surname) }}
     {{ form_row(form.email) }}

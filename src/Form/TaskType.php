@@ -8,8 +8,9 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,18 +22,22 @@ class TaskType extends AbstractType
     {
         $project = $options['project'];
         $status = $options['status'];
+        $isEdit = $options['is_edit'];
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre de la tâche',
-                'constraints' => array(
-                    new NotBlank([
-                        'message' => 'test'
-                    ])
-                )
+                'empty_data' => ''
+
             ])
-            ->add('description')
-            ->add('date', null, [
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'empty_data' => ''
+            ])
+            ->add('date', DateType::class, [
                 'widget' => 'single_text',
+                'label' => "date",
+                'empty_data' => null,
+                'invalid_message' => 'Veuillez entrer une date valide.',
             ])
             ->add('status', ChoiceType::class, [
                 'choices' => [
@@ -47,19 +52,15 @@ class TaskType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Membre'
             ])
-            ->add('project', HiddenType::class, [
-                'mapped' => false, // We will manually map it in the controller
-            ])
-            ->add('projectEntity', EntityType::class, [
+            ->add('project', EntityType::class, [
                 'class' => Project::class,
                 'choice_label' => 'title',
                 'attr' => ['style' => 'display:none;'], // Hide the field
-                'mapped' => false, // We will manually map it in the controller
                 'label' => false,
             ])
 
             ->add('submit', SubmitType::class, [
-                'label' => 'Ajouter',
+                'label' => $isEdit ? 'Modifier' : 'Ajouter',
                 'attr' => ['class' => 'button button-submit']
             ])
         ;
@@ -70,8 +71,9 @@ class TaskType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Task::class,
             'status' => '1',
+            'is_edit' => false,
         ]);
         $resolver->setRequired('project');
-        $resolver->setAllowedTypes('project', [Project::class, 'null']);
+        $resolver->setAllowedTypes('project', [Project::class]);
     }
 }

@@ -50,7 +50,7 @@ class TaskController extends AbstractController
             throw $this->createNotFoundException('No task found');
         }
 
-        $form = $this->createForm(TaskType::class, $task, ['project' => $project, 'status' => $task->getStatus()]);
+        $form = $this->createForm(TaskType::class, $task, ['project' => $project, 'status' => $task->getStatus(), 'is_edit' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -67,7 +67,7 @@ class TaskController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-    #[Route('/task/{id}/{taskId}/remove', name: 'project_task_remove', methods: ['POST'])]
+    #[Route('/task/{id}/{taskId}/remove', name: 'project_task_remove', methods: ['POST', 'GET'])]
     public function taskRemove(Project $project, int $taskId, TaskRepository $repository, EntityManagerInterface $entityManagerInterface): Response
     {
         $task = $repository->find($taskId);

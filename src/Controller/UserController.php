@@ -39,7 +39,7 @@ class UserController extends AbstractController
         return $this->render('user/user.html.twig', [
             'current_route' => $request->attributes->get('_route'),
             'form' => $form->createView(),
-            'id' => $user->getId()
+            'user' => $user
         ]);
     }
     #[Route('/user/{id}/remove', name: 'user_remove',  methods: ['POST', 'GET'])]

@@ -17,14 +17,17 @@ class Task
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(max: 10)]
+    #[Assert\NotBlank(message: "Le titre ne peut pas être vide.")]
+    #[Assert\Length(max: 50, maxMessage: "Le titre ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\Type("\DateTimeInterface")]
+    #[Assert\NotNull(message: "La date ne peut pas être vide.")]
+    #[Assert\Type("\DateTimeInterface", message: "La date doit être valide.")]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
@@ -32,11 +35,22 @@ class Task
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: "Impossible d'associer une tâche à ce projet.")]
     private ?Project $project = null;
 
     #[ORM\Column]
-    #[Assert\Range(min: 1, max: 3, notInRangeMessage: 'You must be between {{ min }} and {{ max }} tall to enter')]
+    #[Assert\NotNull(message: "Le statut ne peut pas être vide.")]
+    #[Assert\Range(
+        min: 1,
+        max: 3,
+        notInRangeMessage: "Le statut est invalide."
+    )]
     private ?int $status = null;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     public function getId(): ?int
     {

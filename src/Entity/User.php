@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User
@@ -19,27 +20,40 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Email(message: "Veuillez verifier l'email")]
+    #[Assert\NotBlank(message: "Veuillez verifier l'email")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    private ?string $password;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[Assert\NotBlank(message: "Veuillez rentrer le nom")]
+
+    private ?string $name;
 
     #[ORM\Column(length: 255)]
-    private ?string $surname = null;
+    #[Assert\NotBlank(message: "Veuillez renseigner le prénom")]
+    private ?string $surname;
 
     #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    #[Assert\Choice([
+        'choices' => ['CDI', 'CDD'],
+        'message' => 'les seuls choix possibles sont : {{ choices }}',
+    ])]
+    #[Assert\NotBlank(message: "Le status ne peut pas être vide")]
+    private ?string $status;
+
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotNull(message: "La date ne peut pas être vide.")]
     private ?\DateTimeInterface $date = null;
 
     /**
      * @var Collection<int, Project>
      */
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'users')]
+    #[Assert\CollectionValidator]
     private Collection $projects;
 
     /**
@@ -52,6 +66,7 @@ class User
     {
         $this->projects = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int

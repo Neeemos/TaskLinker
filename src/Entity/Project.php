@@ -8,6 +8,7 @@ use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 class Project
@@ -18,10 +19,16 @@ class Project
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le titre ne peut pas être vide.")]
+    #[Assert\Length(
+        max: 50,
+        maxMessage: "Le titre ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $title = null;
 
 
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Task::class, orphanRemoval: true)]
+
     private Collection $tasks;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'projects')]
@@ -31,6 +38,7 @@ class Project
     {
         $this->tasks = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int
