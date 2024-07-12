@@ -20,7 +20,6 @@ class TaskType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $project = $options['project'];
         $status = $options['status'];
         $isEdit = $options['is_edit'];
         $builder
@@ -53,13 +52,6 @@ class TaskType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Membre'
             ])
-            ->add('project', EntityType::class, [
-                'class' => Project::class,
-                'choice_label' => 'title',
-                'attr' => ['style' => 'display:none;'], // Hide the field
-                'label' => false,
-            ])
-
             ->add('submit', SubmitType::class, [
                 'label' => $isEdit ? 'Modifier' : 'Ajouter',
                 'attr' => ['class' => 'button button-submit']
@@ -74,7 +66,6 @@ class TaskType extends AbstractType
             'status' => '1',
             'is_edit' => false,
         ]);
-        $resolver->setRequired('project');
-        $resolver->setAllowedTypes('project', [Project::class]);
+
     }
 }

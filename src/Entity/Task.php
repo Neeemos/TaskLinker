@@ -23,6 +23,7 @@ class Task
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
+    #[Assert\Length(max: 255, maxMessage: "La description ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -35,7 +36,6 @@ class Task
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull(message: "Impossible d'associer une tâche à ce projet.")]
     private ?Project $project = null;
 
     #[ORM\Column]

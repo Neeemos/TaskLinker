@@ -33,7 +33,6 @@ class ProjectController extends AbstractController
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $project = $form->getData();
             $entityManager->persist($project);
             $entityManager->flush();
 

@@ -29,11 +29,12 @@ class User
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez rentrer le nom")]
-
+    #[Assert\Length(max: 255, maxMessage: "Le nom ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $name;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Veuillez renseigner le prénom")]
+    #[Assert\Length(max: 255, maxMessage: "Le prénom ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $surname;
 
     #[ORM\Column(length: 255)]

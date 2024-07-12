@@ -23,9 +23,9 @@ class TaskController extends AbstractController
     {
 
         $task = new Task();
-        $form = $this->createForm(TaskType::class, $task, ['project' => $project, 'status' => $statut]);
+        $form = $this->createForm(TaskType::class, $task, ['status' => $statut]);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $task->setProject($project);
             $entityManager->persist($task);
@@ -50,7 +50,7 @@ class TaskController extends AbstractController
             throw $this->createNotFoundException('No task found');
         }
 
-        $form = $this->createForm(TaskType::class, $task, ['project' => $project, 'status' => $task->getStatus(), 'is_edit' => true]);
+        $form = $this->createForm(TaskType::class, $task, ['status' => $task->getStatus(), 'is_edit' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
