@@ -14,7 +14,6 @@ Modifier le fichier .env avec les bonnes données de connexion à la base de don
 
 ```bash 
 DATABASE_URL="mysql://USERNAME:PASSWORD@127.0.0.1:3306/DATABASENAME?serverVersion=8.0.32&charset=utf8mb4"
-Modifier le fichier .env avec les bonnes données de connexion à la base de données.
 ```
 Creation de la database vierge
 ```bash 
